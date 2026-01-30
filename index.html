@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNN Handwritten Digit Classification</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔢 KNN Handwritten Digit Classification</h1>
+            <p class="subtitle">Interactive visualization of K-Nearest Neighbors algorithm on digit dataset</p>
+        </header>
+
+        <div class="info-section">
+            <div class="info-card">
+                <h3>📊 Dataset Info</h3>
+                <p><strong>Total Samples:</strong> <span id="totalSamples">1797</span></p>
+                <p><strong>Features:</strong> <span id="features">64 (8x8 pixels)</span></p>
+                <p><strong>Classes:</strong> <span id="classes">10 (digits 0-9)</span></p>
+                <p><strong>Train Set:</strong> <span id="trainSize">80%</span></p>
+                <p><strong>Test Set:</strong> <span id="testSize">20%</span></p>
+            </div>
+
+            <div class="info-card">
+                <h3>🎯 Model Status</h3>
+                <p><strong>Algorithm:</strong> K-Nearest Neighbors</p>
+                <p><strong>Current K:</strong> <span id="currentK">3</span></p>
+                <p><strong>Distance Metric:</strong> Euclidean</p>
+                <p><strong>Scaling:</strong> StandardScaler</p>
+                <p><strong>Status:</strong> <span id="modelStatus" class="status-badge">Ready</span></p>
+            </div>
+
+            <div class="info-card">
+                <h3>📈 Performance</h3>
+                <p><strong>Current Accuracy:</strong> <span id="currentAccuracy">--</span></p>
+                <p><strong>Best K Value:</strong> <span id="bestK">--</span></p>
+                <p><strong>Best Accuracy:</strong> <span id="bestAccuracy">--</span></p>
+                <p><strong>Training Time:</strong> <span id="trainingTime">--</span></p>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <h2>🎮 Controls</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="kValue">Select K Value:</label>
+                    <select id="kValue">
+                        <option value="3" selected>K = 3</option>
+                        <option value="5">K = 5</option>
+                        <option value="7">K = 7</option>
+                        <option value="9">K = 9</option>
+                        <option value="11">K = 11</option>
+                        <option value="13">K = 13</option>
+                        <option value="15">K = 15</option>
+                    </select>
+                </div>
+
+                <button id="trainBtn" class="btn btn-primary">🚀 Train Model</button>
+                <button id="trainAllBtn" class="btn btn-secondary">📊 Train All K Values</button>
+                <button id="resetBtn" class="btn btn-tertiary">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>📸 Sample Digit Images</h2>
+            <div id="digitSamples" class="digit-grid"></div>
+        </div>
+
+        <div class="chart-section">
+            <h2>📉 Accuracy vs K Value</h2>
+            <div class="chart-container">
+                <canvas id="accuracyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="confusion-section">
+            <h2>🎯 Confusion Matrix</h2>
+            <div id="confusionMatrix" class="matrix-container"></div>
+            <div id="matrixLegend" class="matrix-legend"></div>
+        </div>
+
+        <div class="prediction-section">
+            <h2>🔮 Test Predictions</h2>
+            <div id="predictions" class="predictions-grid"></div>
+        </div>
+
+        <div class="faq-section">
+            <h2>❓ Interview Questions & Answers</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">1. What is K in KNN?</div>
+                <div class="faq-answer">
+                    K is the number of nearest neighbors considered when making a prediction. The algorithm finds K training samples closest to the test point and assigns the most common class among those K neighbors. It's a hyperparameter that must be tuned for optimal performance.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">2. Why is scaling required for KNN?</div>
+                <div class="faq-answer">
+                    KNN uses distance metrics (like Euclidean distance) to find nearest neighbors. Features with larger scales can dominate the distance calculation, making the algorithm biased. StandardScaler ensures all features contribute equally by transforming them to have mean=0 and variance=1.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">3. What is Euclidean distance?</div>
+                <div class="faq-answer">
+                    Euclidean distance is the straight-line distance between two points in n-dimensional space. For points A and B with coordinates (a₁,a₂,...,aₙ) and (b₁,b₂,...,bₙ), the formula is: d = √[(a₁-b₁)² + (a₂-b₂)² + ... + (aₙ-bₙ)²]
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">4. What happens if K is too low?</div>
+                <div class="faq-answer">
+                    If K is too low (e.g., K=1), the model becomes sensitive to noise and outliers, leading to overfitting. The decision boundary becomes very irregular and the model doesn't generalize well. However, very high K values can cause underfitting by oversimplifying the decision boundary.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">5. What are limitations of KNN?</div>
+                <div class="faq-answer">
+                    • <strong>Computational Cost:</strong> Slow prediction time as it needs to compute distances to all training samples<br>
+                    • <strong>Memory Intensive:</strong> Stores entire training dataset (lazy learning)<br>
+                    • <strong>Curse of Dimensionality:</strong> Performance degrades with high-dimensional data<br>
+                    • <strong>Sensitive to Irrelevant Features:</strong> Needs feature selection/engineering<br>
+                    • <strong>Imbalanced Data:</strong> Biased toward majority class
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Built with HTML, CSS & JavaScript | KNN Algorithm Demonstration</p>
+        </footer>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
